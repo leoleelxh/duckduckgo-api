@@ -9,7 +9,7 @@ def search():
     # 从JSON请求体中获取关键词和最大结果数
     data = request.get_json()
     keywords = data.get('q')
-    max_results = int(data.get('max_results', 10))
+    max_results = int(data.get('max_results', 3))
     results = []
 
     with DDGS() as ddgs:
