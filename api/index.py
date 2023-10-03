@@ -1,15 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from duckduckgo_search import DDGS
 from itertools import islice
 
 app = Flask(__name__)
 
-@app.route('/search')
+@app.route('/search', methods=['POST'])
 def search():
-    # 从请求参数中获取关键词
-    keywords = request.args.get('q')
-    # 从请求参数中获取最大结果数，如果未指定，则默认为10
-    max_results = int(request.args.get('max_results', 10))
+    # 从JSON请求体中获取关键词和最大结果数
+    data = request.get_json()
+    keywords = data.get('q')
+    max_results = int(data.get('max_results', 10))
     results = []
 
     with DDGS() as ddgs:
@@ -20,10 +20,11 @@ def search():
             results.append(r)
 
     # 返回一个json响应，包含搜索结果
-    return {'results': results}
+    return jsonify({'results': results})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+
 
 #源代码
 
