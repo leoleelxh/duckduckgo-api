@@ -20,11 +20,11 @@ def search():
 
     # 返回一个json响应，将搜索关键词放入prompt字段中
     response = {
-        "prompt": {
-           
-            "搜索结果": result,
-             "搜索词": search_key
-        }
+        "prompt": "
+             搜索词: search_key,
+            搜索结果: result
+           "
+        
     }
     return jsonify(response)
 
