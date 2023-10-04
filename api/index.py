@@ -18,18 +18,15 @@ def search():
         if first_result:
             result = first_result['body']  # 提取结果中的body字段
 
-    # 返回一个json响应，将搜索关键词放入prompt字段中
+    # 返回一个json响应，按照指定的输出格式
     response = {
-        "prompt": "
-             搜索词: search_key,
-            搜索结果: result
-           "
-        
+        "prompt": f"搜索词：{search_key}, 搜索结果{result}"
     }
     return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+
 
 
 
