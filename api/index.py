@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from duckduckgo_search import DDGS
 
@@ -19,9 +18,12 @@ def search():
         if first_result:
             result = first_result['body']  # 提取结果中的body字段
 
-    # 返回一个json响应，包含搜索结果的body字段
+    # 返回一个json响应，将搜索关键词放入prompt字段中
     response = {
-        "prompt":searchKey,result
+        "prompt": {
+            "searchKey": search_key,
+            "result": result
+        }
     }
     return jsonify(response)
 
