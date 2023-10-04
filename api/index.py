@@ -21,7 +21,7 @@ def search():
 
     # 返回一个json响应，包含搜索结果的body字段
     response = {
-        "prompt":searchKey:result
+        "prompt":searchKey,result
     }
     return jsonify(response)
 
