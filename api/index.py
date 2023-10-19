@@ -1,35 +1,35 @@
 
 
-from flask import Flask, request, jsonify
-from duckduckgo_search import DDGS
+# from flask import Flask, request, jsonify
+# from duckduckgo_search import DDGS
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-@app.route('/search', methods=['POST'])
-def search():
-    # 从JSON请求体中获取搜索关键词和最大结果数
-    data = request.get_json()
-    search_key = data.get('searchKey')
-    max_results = int(data.get('max_results', 3))
-    results = []
+# @app.route('/search', methods=['POST'])
+# def search():
+#     # 从JSON请求体中获取搜索关键词和最大结果数
+#     data = request.get_json()
+#     search_key = data.get('searchKey')
+#     max_results = int(data.get('max_results', 3))
+#     results = []
 
-    with DDGS() as ddgs:
-        # 使用DuckDuckGo搜索关键词
-        ddgs_gen = ddgs.text(search_key, safesearch='Off', timelimit='y', backend="lite")
-        # 获取指定数量的搜索结果
-        for i in range(max_results):
-            result = next(ddgs_gen, None)
-            if result:
-                results.append(result['body'])  # 提取结果中的body字段
+#     with DDGS() as ddgs:
+#         # 使用DuckDuckGo搜索关键词
+#         ddgs_gen = ddgs.text(search_key, safesearch='Off', timelimit='y', backend="lite")
+#         # 获取指定数量的搜索结果
+#         for i in range(max_results):
+#             result = next(ddgs_gen, None)
+#             if result:
+#                 results.append(result['body'])  # 提取结果中的body字段
 
-    # 返回一个json响应，按照指定的输出格式
-    response = {
-        "prompt": f"搜索词：{search_key}, 搜索结果：{results}"
-    }
-    return jsonify(response)
+#     # 返回一个json响应，按照指定的输出格式
+#     response = {
+#         "prompt": f"搜索词：{search_key}, 搜索结果：{results}"
+#     }
+#     return jsonify(response)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0')
 
 
 
@@ -131,30 +131,30 @@ if __name__ == '__main__':
 
 #源代码
 
-# from flask import Flask, request
-# from duckduckgo_search import DDGS
-# from itertools import islice
+from flask import Flask, request
+from duckduckgo_search import DDGS
+from itertools import islice
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
-# @app.route('/search')
-# def search():
-#     # 从请求参数中获取关键词
-#     keywords = request.args.get('q')
-#     # 从请求参数中获取最大结果数，如果未指定，则默认为10
-#     max_results = int(request.args.get('max_results', 10))
-#     results = []
+@app.route('/search')
+def search():
+    # 从请求参数中获取关键词
+    keywords = request.args.get('q')
+    # 从请求参数中获取最大结果数，如果未指定，则默认为10
+    max_results = int(request.args.get('max_results', 10))
+    results = []
 
-#     with DDGS() as ddgs:
-#         # 使用DuckDuckGo搜索关键词
-#         ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="lite")
-#         # 从搜索结果中获取最大结果数
-#         for r in islice(ddgs_gen, max_results):
-#             results.append(r)
+    with DDGS() as ddgs:
+        # 使用DuckDuckGo搜索关键词
+        ddgs_gen = ddgs.text(keywords, safesearch='Off', timelimit='y', backend="lite")
+        # 从搜索结果中获取最大结果数
+        for r in islice(ddgs_gen, max_results):
+            results.append(r)
 
-#     # 返回一个json响应，包含搜索结果
-#     return {'results': results}
+    # 返回一个json响应，包含搜索结果
+    return {'results': results}
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0')
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
 
